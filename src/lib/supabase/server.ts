@@ -7,15 +7,15 @@ if (!supabaseUrl || !serviceRoleKey) {
   throw new Error('Missing Supabase server env vars');
 }
 
-// Server-side client (uses service role, never exposed to browser)
-export const supabaseServer = createClient(supabaseUrl, serviceRoleKey, {
-  auth: {
-    autoRefreshToken: false,
-    persistSession: false
-  }
-});
-
-// Optional helper if you prefer a function
-export function getServerClient() {
-  return supabaseServer;
+/**
+ * Server-side Supabase client using the service role key.
+ * Never call this from client-side code.
+ */
+export function getServerSupabase() {
+  return createClient(supabaseUrl, serviceRoleKey, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false,
+    },
+  });
 }
